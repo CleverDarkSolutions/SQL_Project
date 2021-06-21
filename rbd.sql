@@ -521,22 +521,18 @@ END//
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE test1.popoga()
+CREATE PROCEDURE test1.updatePromocja()
 BEGIN
-DECLARE x INT;
-DECLARE count INT;
-SET count  = (SELECT COUNT(*) FROM produkt);
+DECLARE x INT DEFAULT 0;
+DECLARE n INT DEFAULT 0;
+SELECT COUNT(*) FROM promocja INTO n;
 
-    loop_label : LOOP
-        IF X > COUNT THEN LEAVE loop_label;
-        END IF;
-        
-        SET x = x + 1;
-        
+SET x = 0;
+    WHILE x < n DO       
         UPDATE Produkt 
         SET Cena_Promocja = Cena * (SELECT Upust from Promocja WHERE produkt.ID_Promocja = promocja.ID_Promocja); 
-        
-       END LOOP;
+        SET x = x + 1;
+       END WHILE;
 END//
 DELIMITER ;
 
