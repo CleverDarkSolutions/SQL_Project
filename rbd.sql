@@ -202,7 +202,11 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Batory", "Stefan", "489111333","Amona 15","Gdansk","stefan.batory@wp.pl"
 ); 
 INSERT INTO Zamowienie VALUES(
+<<<<<<< HEAD
+    DEFAULT,"2020-02-19",1, 2
+=======
     DEFAULT,"2020-02-19",1,1
+>>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Karta",1
@@ -217,7 +221,7 @@ INSERT INTO Reklamacja VALUES(
     DEFAULT,"Paczka smierdziala jak ja otworzylem","2020-02-22"
 ); 
 INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,1,1,1
+    DEFAULT,1,1,`1`
 );
 
 INSERT INTO Rola VALUES (
@@ -242,7 +246,11 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Kalinowski", "Michal", "999222111","Zeusa 69","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
+<<<<<<< HEAD
+    DEFAULT,"2019-02-19",2,4
+=======
     DEFAULT,"2019-02-19",2,2
+>>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Gotowka",2
@@ -282,7 +290,11 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Pilsudski", "Jozef", "999999999","Wladyslawa 4","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
+<<<<<<< HEAD
+    DEFAULT,"2020-02-19",2,2
+=======
     DEFAULT,"2020-02-19",3,3
+>>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Faktura",3
@@ -322,7 +334,11 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Zemajtys", "Filip", "999999999","Genarala Marii Wittekowny 4","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
+<<<<<<< HEAD
+    DEFAULT,"2021-02-19",4,3
+=======
     DEFAULT,"2021-02-19",4,4
+>>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Karta",4
@@ -404,7 +420,11 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Zemajtys", "Filip", "999999999","Aleje Straszne","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
+<<<<<<< HEAD
+    DEFAULT,"2022-04-30",3,3
+=======
     DEFAULT,"2022-04-30",6,6
+>>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Karta",6
@@ -445,7 +465,11 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Zemajtys", "Filip", "999999999","Obroncow Wybrzeza","Gdansk",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
+<<<<<<< HEAD
+    DEFAULT,"2015-02-19",7, 4
+=======
     DEFAULT,"2015-02-19",7,7
+>>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Karta",7
@@ -485,7 +509,11 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Chyla", "Filip", "231312333","Wychodek 72","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
+<<<<<<< HEAD
+    DEFAULT,"2021-09-19",8,1
+=======
     DEFAULT,"2021-09-19",8,8
+>>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Gotowka",8
