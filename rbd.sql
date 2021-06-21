@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS Partner(
     Nazwisko VARCHAR(30) NOT NULL,
     Imie VARCHAR(20) NOT NULL,
     Nr_konta CHAR(16) NOT NULL,
-    Telefon CHAR(9) NOT NULL,
+    Telefon VARCHAR(9) NOT NULL,
     FOREIGN KEY (ID_rola) REFERENCES Rola(ID_Rola)
 );
 
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS Klient (
     ID_Klient INT AUTO_INCREMENT PRIMARY KEY,
     Nazwisko VARCHAR(60) NOT NULL,
     Imie VARCHAR(60) NOT NULL,
-    Nr_telefonu VARCHAR(9) NOT NULL,
+    Telefon VARCHAR(9) NOT NULL,
     Ulica VARCHAR(50) NOT NULL,
     Miasto VARCHAR (50) NOT NULL,
     Email VARCHAR (50) NOT NULL 
@@ -110,8 +110,8 @@ CREATE TABLE IF NOT EXISTS Zamowienie_produkt (
 
 CREATE TRIGGER partner_email BEFORE INSERT ON Partner FOR EACH ROW SET NEW.email = CONCAT(LOWER(NEW.Imie),".",LOWER(New.Nazwisko),"@scamshop.partner.pl");
  CREATE TRIGGER client_email BEFORE INSERT ON Klient FOR EACH ROW SET NEW.email = CONCAT(LOWER(NEW.Imie),".",LOWER(New.Nazwisko),"@scamshop.client.pl");
- CREATE TRIGGER partner_phone BEFORE INSERT ON Partner FOR EACH ROW SET NEW.Nr_telefonu = CONCAT("+48"," ",NEW.Nr_telefonu);
- CREATE TRIGGER client_phone BEFORE INSERT ON Klient FOR EACH ROW SET NEW.Nr_telefonu = CONCAT("+48"," ",New.Nr_telefonu);
+ CREATE TRIGGER partner_phone BEFORE INSERT ON Partner FOR EACH ROW SET NEW.Nr_telefonu = CONCAT("+48"," ",NEW.Telefon);
+ CREATE TRIGGER client_phone BEFORE INSERT ON Klient FOR EACH ROW SET NEW.Nr_telefonu = CONCAT("+48"," ",NEW.Telefon);
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
