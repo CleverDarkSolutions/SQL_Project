@@ -546,6 +546,7 @@ END//
 
 DELIMITER ;
 
+CALL test1.updatePromocja();
 
 create view zamowienia_kompletne AS SELECT
 dostawa.id_dostawa, data_dostawy, zamowienie.Data_kupna, produkt.Nazwa, produkt.Rozmiar, klient.Nazwisko, klient.Imie, klient.Nr_telefonu, firma_kurierska.nazwa_firmy FROM dostawa
