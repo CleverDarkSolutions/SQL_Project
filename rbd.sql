@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Rola(
 CREATE TABLE IF NOT EXISTS Partner(
     ID_Partner INT PRIMARY KEY AUTO_INCREMENT,
     ID_Rola INT,
-    Email VARCHAR(30),
+    Email VARCHAR(100),
     Nazwisko VARCHAR(30) NOT NULL,
     Imie VARCHAR(20) NOT NULL,
     Nr_konta CHAR(16) NOT NULL,
@@ -128,7 +128,7 @@ CREATE TRIGGER partner_phone
 BEFORE INSERT
 ON Partner FOR EACH ROW
 BEGIN
-	IF NEW.Nr_telefonu IS NULL THEN
+	IF LENGTH(NEW.Nr_telefonu) = 9 THEN
     SET NEW.Nr_telefonu = CONCAT("+48"," ",NEW.Nr_telefonu);
     END IF;
 END//
@@ -141,7 +141,7 @@ CREATE TRIGGER client_phone
 BEFORE INSERT
 ON Klient FOR EACH ROW
 BEGIN
-	IF NEW.Nr_telefonu IS NULL THEN
+	IF LENGTH(NEW.Nr_telefonu) = 9 THEN
     SET NEW.Nr_telefonu = CONCAT("+48"," ",New.Nr_telefonu);
     END IF;
 END//
