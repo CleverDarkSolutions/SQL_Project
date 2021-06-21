@@ -58,7 +58,9 @@ CREATE TABLE IF NOT EXISTS Zamowienie (
     ID_Zamowienie INT AUTO_INCREMENT PRIMARY KEY,
     Data_kupna DATE NOT NULL,
     ID_Klient INT,
-    FOREIGN KEY (ID_Klient) REFERENCES Klient(ID_Klient)
+    ID_Produkt INT,
+    FOREIGN KEY (ID_Klient) REFERENCES Klient(ID_Klient),
+    FOREIGN KEY (ID_Produkt) REFERENCES Produkt(ID_Produkt)
 );
 
 CREATE TABLE IF NOT EXISTS Platnosc (
