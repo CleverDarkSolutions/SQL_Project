@@ -220,7 +220,7 @@ INSERT INTO Producent VALUES(
     DEFAULT, 'AlJazeera z Grunwaldu'
 );
 INSERT INTO Promocja VALUES (
-    DEFAULT, 'Brak' , 0.0
+    DEFAULT, 'Brak' , 0.1
 );
 INSERT INTO Produkt VALUES (
     DEFAULT,'Koszulka Addias',"L",2, 2, 30,NULL,'2 lata'
@@ -296,7 +296,7 @@ INSERT INTO Producent VALUES(
     DEFAULT, 'Sultan kosmitow z planety kurwix'
 );
 INSERT INTO Promocja VALUES (
-    DEFAULT, 'Brak' , 0.0
+    DEFAULT, 'Brak' , 0.3
 );
 INSERT INTO Produkt VALUES (
     DEFAULT,'Czapka z logiem galaktyki kurwix', 'S', 4, 4, 1000,NULL, '1 rok'
@@ -335,7 +335,7 @@ INSERT INTO Producent VALUES(
     DEFAULT, 'Lepkie palce company'
 );
 INSERT INTO Promocja VALUES (
-    DEFAULT, 'Kup jedna zaplac za dwie' , 0.0
+    DEFAULT, 'Kup jedna zaplac za dwie' , 0.4
 );
 INSERT INTO Produkt VALUES (
     DEFAULT,'Dziwnie lepkie rekawiczki', 'XL', 5, 5, 420,NULL, '10 lat'
@@ -413,7 +413,7 @@ INSERT INTO Producent VALUES(
     DEFAULT, 'Kapitan bombadiero'
 );
 INSERT INTO Promocja VALUES (
-    DEFAULT, 'Brak' , 0.0
+    DEFAULT, 'Brak' , 0.5
 );
 INSERT INTO Produkt VALUES (
     DEFAULT,'Bluza Nike', 'XXL', 7, 7, 1000,NULL, '1 rok'
