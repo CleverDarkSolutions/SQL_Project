@@ -430,3 +430,43 @@ INSERT INTO Reklamacja VALUES(
 INSERT INTO Zamowienie_produkt VALUES(
     DEFAULT,8,8,8
 );
+
+DELIMITER /
+CREATE PROCEDURE test1.all()
+BEGIN
+SELECT SUM(Ilosc) from stan;
+END//
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE test1.zamowienieData(IN Data DATE)
+BEGIN
+	SELECT * FROM zamowienie
+    WHERE Data_kupna = Data;
+END//
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE test1.wybierzRozmiar(IN rozmiar VARCHAR(10) )
+BEGIN
+	SELECT * FROM produkt
+    WHERE produkt.Rozmiar = rozmiar;
+END//
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE test1.zaufaniKurierzy(IN kod INT )
+BEGIN
+IF kod = 2137 THEN 
+	SELECT * FROM firma_kurierska
+    WHERE firma_kurierska.Nazwa_firmy IN('Zuo Industries','Jaff Industries', 'Avenger Industries');
+END IF;
+END//
+DELIMITER ;
+
+
