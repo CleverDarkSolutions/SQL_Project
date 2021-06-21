@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Rola(
 CREATE TABLE IF NOT EXISTS Partner(
     ID_Partner INT PRIMARY KEY AUTO_INCREMENT,
     ID_Rola INT,
-    Email VARCHAR(30),
+    Email VARCHAR(255),
     Nazwisko VARCHAR(30) NOT NULL,
     Imie VARCHAR(20) NOT NULL,
     Nr_konta CHAR(16) NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS Klient (
     Nr_telefonu VARCHAR(12) NOT NULL,
     Ulica VARCHAR(50),
     Miasto VARCHAR (50) NOT NULL,
-    Email VARCHAR (50)
+    Email VARCHAR (255)
 );
 
 CREATE TABLE IF NOT EXISTS Zamowienie (
@@ -129,8 +129,8 @@ CREATE TRIGGER partner_phone
 BEFORE INSERT
 ON Partner FOR EACH ROW
 BEGIN
-	IF NEW.Nr_telefonu IS NULL THEN
-    SET NEW.Nr_telefonu = CONCAT("+48"," ",NEW.Nr_telefonu);
+	IF LENGTH (NEW.Nr_telefonu) = 9 THEN
+    SET NEW.Nr_telefonu = CONCAT("+48",NEW.Nr_telefonu);
     END IF;
 END//
 DELIMITER ;
@@ -140,8 +140,8 @@ CREATE TRIGGER client_phone
 BEFORE INSERT
 ON Klient FOR EACH ROW
 BEGIN
-	IF NEW.Nr_telefonu IS NULL THEN
-    SET NEW.Nr_telefonu = CONCAT("+48"," ",New.Nr_telefonu);
+	IF LENGTH (NEW.Nr_telefonu) = 9 THEN
+    SET NEW.Nr_telefonu = CONCAT("+48",New.Nr_telefonu);
     END IF;
 END//
 DELIMITER ;
@@ -166,7 +166,7 @@ INSERT INTO Stan VALUES (
     DEFAULT, 1, 50
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Batory", "Stefan", "489111333","Amona 15","Gdansk","stefan.batory@wp.pl"
+    DEFAULT, "Batory", "Stefan", "+99489111333","Amona 15","Gdansk","stefan.batory@wp.pl"
 ); 
 INSERT INTO Zamowienie VALUES(
     DEFAULT,"2020-02-19",1
@@ -231,7 +231,7 @@ INSERT INTO Rola VALUES (
     DEFAULT, 'Zlota raczka'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, '3', 'blaskowkski@tvp.pl', 'Laskowski', 'Bartosz', '1111111111111111', '666666666'
+    DEFAULT, '3', 'blaskowkski@tvp.pl', 'Laskowski', 'Bartosz', '1111111111111111', '+77666666666'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Kapitan Dupa z PJATKU'
@@ -271,7 +271,7 @@ INSERT INTO Rola VALUES (
     DEFAULT, 'Dostawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, '4', NULL, 'Januszewski', 'Patryk', '8888888888888888', '222222222'
+    DEFAULT, '4', NULL, 'Januszewski', 'Patryk', '8888888888888888', '+66222222222'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Sultan kosmitow z planety kurwix'
@@ -353,7 +353,7 @@ INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, 6, NULL, 'Szulist', 'Artur', '3333333333333333', '777888999'
+    DEFAULT, 6, NULL, 'Szulist', 'Artur', '3333333333333333', '+44777888999'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Czarny barak z bialego domu'
@@ -394,7 +394,7 @@ INSERT INTO Rola VALUES (
     DEFAULT, 'Dostawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, 7, 'mchyla@tvpis.pl', 'Chyla', 'Michal', '1312312131231312', '666666666'
+    DEFAULT, 7, 'mchyla@tvpis.pl', 'Chyla', 'Michal', '1312312131231312', '+49666666666'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Kapitan bombadiero'
@@ -434,7 +434,7 @@ INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, 8, NULL, 'Kalinowski', 'Mariusz', '4444444444444444', '222222222'
+    DEFAULT, 8, NULL, 'Kalinowski', 'Mariusz', '4444444444444444', '+25222222222'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Sultan kosmitow z planety kurwix'
