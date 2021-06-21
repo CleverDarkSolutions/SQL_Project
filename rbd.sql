@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS Produkt(
     ID_Promocja INT,
     ID_Producent INT,
     Cena DOUBLE(10, 2),
+    Cena_Promocja DOUBLE(10, 2),
     Gwarancja VARCHAR(20),
     FOREIGN KEY (ID_Promocja) REFERENCES Promocja(ID_Promocja),
     FOREIGN KEY (ID_Producent) REFERENCES Producent(ID_Producent)
@@ -102,8 +103,18 @@ CREATE TABLE IF NOT EXISTS Zamowienie_produkt (
     FOREIGN KEY (ID_Produkt) REFERENCES Produkt(ID_Produkt),
     FOREIGN KEY (ID_Zamowienie) REFERENCES Zamowienie(ID_Zamowienie)
 );
-
 DELIMITER //
+CREATE TRIGGER update_price
+BEFORE INSERT
+ON Partner FOR EACH ROW
+BEGIN
+IF NEW.Cena_Promocja IS NULL THEN
+SET NEW.Cena_Promocja =(SELECT p.Nazwa, 
+    p.Cena*(1-d.Upust) AS Cena_Promocja
+    FROM Produkt p
+    JOIN Promocja d ON d.ID_Promocja=p.ID_Promocja;)
+DELIMITER //
+
 CREATE TRIGGER partner_email
 BEFORE INSERT
 ON Partner FOR EACH ROW
@@ -182,7 +193,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'Summer Sale' , 0.8
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Bluza Nike', 'M', 1, 1, 50, '10 lat'
+    DEFAULT,'Bluza Nike', 'M', 1, 1, 50,NULL,'10 lat'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 1, 50
@@ -222,7 +233,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'Brak' , 0.0
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Koszulka Addias',"L",2, 2, 30, '2 lata'
+    DEFAULT,'Koszulka Addias',"L",2, 2, 30,NULL,'2 lata'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 2, 30
@@ -262,7 +273,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'Summer Sale' , 0.5
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Buty z sultanem kosmitow','42', 3, 3, 300, '100 lat'
+    DEFAULT,'Buty z sultanem kosmitow','42', 3, 3, 300,NULL, '100 lat'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 3, 50
@@ -302,7 +313,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'Brak' , 0.0
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Czapka z logiem galaktyki kurwix', 'S', 4, 4, 1000, '1 rok'
+    DEFAULT,'Czapka z logiem galaktyki kurwix', 'S', 4, 4, 1000,NULL, '1 rok'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 4, 1
@@ -343,7 +354,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'Kup jedna zaplac za dwie' , 0.0
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Dziwnie lepkie rekawiczki', 'XL', 5, 5, 420, '10 lat'
+    DEFAULT,'Dziwnie lepkie rekawiczki', 'XL', 5, 5, 420,NULL, '10 lat'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 5, 100
@@ -384,7 +395,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'BLM' , 0.4
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Bokserki z bialymi plamami', 'M', 6, 6, 30, '4 lata'
+    DEFAULT,'Bokserki z bialymi plamami', 'M', 6, 6, 30,NULL, '4 lata'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 6, 10
@@ -425,7 +436,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'Brak' , 0.0
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Bluza Nike', 'XXL', 7, 7, 1000, '1 rok'
+    DEFAULT,'Bluza Nike', 'XXL', 7, 7, 1000,NULL, '1 rok'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 7, 1000
@@ -465,7 +476,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'All in' , 0.9
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Czapka z logiem galaktyki kurwix', 'XL', 8, 8, 1000, '1 rok'
+    DEFAULT,'Czapka z logiem galaktyki kurwix', 'XL', 8, 8, 1000,NULL, '1 rok'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 8, 1
@@ -529,10 +540,7 @@ IF kod = 2137 THEN
 END IF;
 END//
 DELIMITER ;
-SELECT p.Nazwa, 
-    p.Cena*(1-d.Upust) AS Cena_Promocja
-    FROM Produkt p
-    JOIN Promocja d ON d.ID_Promocja=p.ID_Promocja;
+
 
 
 create view zamowienia_kompletne AS SELECT
