@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS Produkt(
     ID_Promocja INT,
     ID_Producent INT,
     Cena DOUBLE(10, 2),
+    Cena_Promocja DOUBLE(10, 2),
     Gwarancja VARCHAR(20),
     FOREIGN KEY (ID_Promocja) REFERENCES Promocja(ID_Promocja),
     FOREIGN KEY (ID_Producent) REFERENCES Producent(ID_Producent)
@@ -102,8 +103,18 @@ CREATE TABLE IF NOT EXISTS Zamowienie_produkt (
     FOREIGN KEY (ID_Produkt) REFERENCES Produkt(ID_Produkt),
     FOREIGN KEY (ID_Zamowienie) REFERENCES Zamowienie(ID_Zamowienie)
 );
-
 DELIMITER //
+CREATE TRIGGER update_price
+BEFORE INSERT
+ON Partner FOR EACH ROW
+BEGIN
+IF NEW.Cena_Promocja IS NULL THEN
+SET NEW.Cena_Promocja =(SELECT p.Nazwa, 
+    p.Cena*(1-d.Upust) AS Cena_Promocja
+    FROM Produkt p
+    JOIN Promocja d ON d.ID_Promocja=p.ID_Promocja;)
+DELIMITER //
+
 CREATE TRIGGER partner_email
 BEFORE INSERT
 ON Partner FOR EACH ROW
@@ -182,7 +193,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'Summer Sale' , 0.8
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Bluza Nike', 'M', 1, 1, 50, '10 lat'
+    DEFAULT,'Bluza Nike', 'M', 1, 1, 50,NULL,'10 lat'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 1, 50
@@ -191,11 +202,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Batory", "Stefan", "489111333","Amona 15","Gdansk","stefan.batory@wp.pl"
 ); 
 INSERT INTO Zamowienie VALUES(
-<<<<<<< HEAD
-    DEFAULT,"2020-02-19",1, 2
-=======
     DEFAULT,"2020-02-19",1,1
->>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Karta",1
@@ -210,7 +217,7 @@ INSERT INTO Reklamacja VALUES(
     DEFAULT,"Paczka smierdziala jak ja otworzylem","2020-02-22"
 ); 
 INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,1,1,`1`
+    DEFAULT,1,1,1
 );
 
 INSERT INTO Rola VALUES (
@@ -226,7 +233,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'Brak' , 0.0
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Koszulka Addias',"L",2, 2, 30, '2 lata'
+    DEFAULT,'Koszulka Addias',"L",2, 2, 30,NULL,'2 lata'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 2, 30
@@ -235,11 +242,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Kalinowski", "Michal", "999222111","Zeusa 69","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
-<<<<<<< HEAD
-    DEFAULT,"2019-02-19",2,4
-=======
     DEFAULT,"2019-02-19",2,2
->>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Gotowka",2
@@ -270,7 +273,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'Summer Sale' , 0.5
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Buty z sultanem kosmitow','42', 3, 3, 300, '100 lat'
+    DEFAULT,'Buty z sultanem kosmitow','42', 3, 3, 300,NULL, '100 lat'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 3, 50
@@ -279,11 +282,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Pilsudski", "Jozef", "999999999","Wladyslawa 4","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
-<<<<<<< HEAD
-    DEFAULT,"2020-02-19",2,2
-=======
     DEFAULT,"2020-02-19",3,3
->>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Faktura",3
@@ -314,7 +313,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'Brak' , 0.0
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Czapka z logiem galaktyki kurwix', 'S', 4, 4, 1000, '1 rok'
+    DEFAULT,'Czapka z logiem galaktyki kurwix', 'S', 4, 4, 1000,NULL, '1 rok'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 4, 1
@@ -323,11 +322,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Zemajtys", "Filip", "999999999","Genarala Marii Wittekowny 4","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
-<<<<<<< HEAD
-    DEFAULT,"2021-02-19",4,3
-=======
     DEFAULT,"2021-02-19",4,4
->>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Karta",4
@@ -359,7 +354,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'Kup jedna zaplac za dwie' , 0.0
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Dziwnie lepkie rekawiczki', 'XL', 5, 5, 420, '10 lat'
+    DEFAULT,'Dziwnie lepkie rekawiczki', 'XL', 5, 5, 420,NULL, '10 lat'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 5, 100
@@ -400,7 +395,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'BLM' , 0.4
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Bokserki z bialymi plamami', 'M', 6, 6, 30, '4 lata'
+    DEFAULT,'Bokserki z bialymi plamami', 'M', 6, 6, 30,NULL, '4 lata'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 6, 10
@@ -409,11 +404,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Zemajtys", "Filip", "999999999","Aleje Straszne","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
-<<<<<<< HEAD
-    DEFAULT,"2022-04-30",3,3
-=======
     DEFAULT,"2022-04-30",6,6
->>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Karta",6
@@ -445,7 +436,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'Brak' , 0.0
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Bluza Nike', 'XXL', 7, 7, 1000, '1 rok'
+    DEFAULT,'Bluza Nike', 'XXL', 7, 7, 1000,NULL, '1 rok'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 7, 1000
@@ -454,11 +445,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Zemajtys", "Filip", "999999999","Obroncow Wybrzeza","Gdansk",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
-<<<<<<< HEAD
-    DEFAULT,"2015-02-19",7, 4
-=======
     DEFAULT,"2015-02-19",7,7
->>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Karta",7
@@ -489,7 +476,7 @@ INSERT INTO Promocja VALUES (
     DEFAULT, 'All in' , 0.9
 );
 INSERT INTO Produkt VALUES (
-    DEFAULT,'Czapka z logiem galaktyki kurwix', 'XL', 8, 8, 1000, '1 rok'
+    DEFAULT,'Czapka z logiem galaktyki kurwix', 'XL', 8, 8, 1000,NULL, '1 rok'
 );
 INSERT INTO Stan VALUES (
     DEFAULT, 8, 1
@@ -498,11 +485,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Chyla", "Filip", "231312333","Wychodek 72","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
-<<<<<<< HEAD
-    DEFAULT,"2021-09-19",8,1
-=======
     DEFAULT,"2021-09-19",8,8
->>>>>>> 59638e160a2e22a7ce8a015f765a42228eeff939
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Gotowka",8
@@ -557,10 +540,7 @@ IF kod = 2137 THEN
 END IF;
 END//
 DELIMITER ;
-SELECT p.Nazwa, 
-    p.Cena*(1-d.Upust) AS Cena_Promocja
-    FROM Produkt p
-    JOIN Promocja d ON d.ID_Promocja=p.ID_Promocja;
+
 
 
 create view zamowienia_kompletne AS SELECT
