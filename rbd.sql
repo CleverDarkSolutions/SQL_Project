@@ -520,6 +520,25 @@ END IF;
 END//
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE test1.popoga()
+BEGIN
+DECLARE x INT;
+DECLARE count INT;
+SET count  = (SELECT COUNT(*) FROM produkt);
+
+    loop_label : LOOP
+        IF X > COUNT THEN LEAVE loop_label;
+        END IF;
+        
+        SET x = x + 1;
+        
+        UPDATE Produkt 
+        SET Cena_Promocja = Cena * (SELECT Upust from Promocja WHERE produkt.ID_Promocja = promocja.ID_Promocja); 
+        
+       END LOOP;
+END//
+DELIMITER ;
 
 
 create view zamowienia_kompletne AS SELECT
