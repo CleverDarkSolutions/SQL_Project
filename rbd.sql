@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Rola(
 CREATE TABLE IF NOT EXISTS Partner(
     ID_Partner INT PRIMARY KEY AUTO_INCREMENT,
     ID_Rola INT,
-    Email VARCHAR(30),
+    Email VARCHAR(255),
     Nazwisko VARCHAR(30) NOT NULL,
     Imie VARCHAR(20) NOT NULL,
     Nr_konta CHAR(16) NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS Klient (
     Nr_telefonu VARCHAR(12) NOT NULL,
     Ulica VARCHAR(50),
     Miasto VARCHAR (50) NOT NULL,
-    Email VARCHAR (50)
+    Email VARCHAR (255)
 );
 
 CREATE TABLE IF NOT EXISTS Zamowienie (
@@ -95,14 +95,6 @@ CREATE TABLE IF NOT EXISTS Reklamacja (
     Data_reklamacji VARCHAR(10)
 );
 
-CREATE TABLE IF NOT EXISTS Zamowienie_produkt (
-    ID_zamowienie_produkt INT AUTO_INCREMENT PRIMARY KEY,
-    ID_Produkt INT,
-    ID_Zamowienie INT,
-    Ilosc INT NOT NULL,
-    FOREIGN KEY (ID_Produkt) REFERENCES Produkt(ID_Produkt),
-    FOREIGN KEY (ID_Zamowienie) REFERENCES Zamowienie(ID_Zamowienie)
-);
 
 DELIMITER //
 CREATE TRIGGER partner_email
@@ -131,8 +123,8 @@ CREATE TRIGGER partner_phone
 BEFORE INSERT
 ON Partner FOR EACH ROW
 BEGIN
-	IF NEW.Nr_telefonu IS NULL THEN
-    SET NEW.Nr_telefonu = CONCAT("+48"," ",NEW.Nr_telefonu);
+	IF LENGTH (NEW.Nr_telefonu) = 9 THEN
+    SET NEW.Nr_telefonu = CONCAT("+48",NEW.Nr_telefonu);
     END IF;
 END//
 DELIMITER ;
@@ -142,8 +134,8 @@ CREATE TRIGGER client_phone
 BEFORE INSERT
 ON Klient FOR EACH ROW
 BEGIN
-	IF NEW.Nr_telefonu IS NULL THEN
-    SET NEW.Nr_telefonu = CONCAT("+48"," ",New.Nr_telefonu);
+	IF LENGTH (NEW.Nr_telefonu) = 9 THEN
+    SET NEW.Nr_telefonu = CONCAT("+48",New.Nr_telefonu);
     END IF;
 END//
 DELIMITER ;
@@ -190,10 +182,10 @@ INSERT INTO Stan VALUES (
     DEFAULT, 1, 50
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Batory", "Stefan", "489111333","Amona 15","Gdansk","stefan.batory@wp.pl"
+    DEFAULT, "Batory", "Stefan", "+99489111333","Amona 15","Gdansk","stefan.batory@wp.pl"
 ); 
 INSERT INTO Zamowienie VALUES(
-    DEFAULT,"2020-02-19",1
+    DEFAULT,"2020-02-19",1,1
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Karta",1
@@ -207,9 +199,6 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,"Paczka smierdziala jak ja otworzylem","2020-02-22"
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,1,1,1
-);
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Dostawca'
@@ -233,7 +222,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Kalinowski", "Michal", "999222111","Zeusa 69","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
-    DEFAULT,"2019-02-19",2
+    DEFAULT,"2019-02-19",2,2
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Gotowka",2
@@ -247,15 +236,12 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,NULL,NULL
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,2,2,2
-);
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Zlota raczka'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, '3', 'blaskowkski@tvp.pl', 'Laskowski', 'Bartosz', '1111111111111111', '666666666'
+    DEFAULT, '3', 'blaskowkski@tvp.pl', 'Laskowski', 'Bartosz', '1111111111111111', '+77666666666'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Kapitan Dupa z PJATKU'
@@ -273,7 +259,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Pilsudski", "Jozef", "999999999","Wladyslawa 4","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
-    DEFAULT,"2020-02-19",3
+    DEFAULT,"2020-02-19",3,3
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Faktura",3
@@ -287,15 +273,13 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,NULL,NULL
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,3,3,3
-);
+
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Dostawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, '4', NULL, 'Januszewski', 'Patryk', '8888888888888888', '222222222'
+    DEFAULT, '4', NULL, 'Januszewski', 'Patryk', '8888888888888888', '+66222222222'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Sultan kosmitow z planety kurwix'
@@ -313,7 +297,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Zemajtys", "Filip", "999999999","Genarala Marii Wittekowny 4","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
-    DEFAULT,"2021-02-19",4
+    DEFAULT,"2021-02-19",4,4
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Karta",4
@@ -327,9 +311,7 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,NULL,NULL
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,4,4,4
-);
+
 
 
 INSERT INTO Rola VALUES (
@@ -354,7 +336,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Paluszek", "Joachim", "555666111","Zadupie 44","Oborniki","joachim.ze@gmail.com"
 ); 
 INSERT INTO Zamowienie VALUES(
-    DEFAULT,"2012-05-19",5
+    DEFAULT,"2012-05-19",5,5
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Gotowka",5
@@ -368,16 +350,14 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,"Produkt niezgodny z opisem","2021-02-25"
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,5,5,5
-);
+
 
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, 6, NULL, 'Szulist', 'Artur', '3333333333333333', '777888999'
+    DEFAULT, 6, NULL, 'Szulist', 'Artur', '3333333333333333', '+44777888999'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Czarny barak z bialego domu'
@@ -395,7 +375,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Zemajtys", "Filip", "999999999","Aleje Straszne","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
-    DEFAULT,"2022-04-30",6
+    DEFAULT,"2022-04-30",6,6
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Karta",6
@@ -409,16 +389,13 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,NULL,NULL
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,6,6,6
-);
 
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Dostawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, 7, 'mchyla@tvpis.pl', 'Chyla', 'Michal', '1312312131231312', '666666666'
+    DEFAULT, 7, 'mchyla@tvpis.pl', 'Chyla', 'Michal', '1312312131231312', '+49666666666'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Kapitan bombadiero'
@@ -436,7 +413,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Zemajtys", "Filip", "999999999","Obroncow Wybrzeza","Gdansk",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
-    DEFAULT,"2015-02-19",7
+    DEFAULT,"2015-02-19",7,7
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Karta",7
@@ -450,15 +427,12 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,"Nadruk szybko sie spral","2017-02-25"
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,7,7,7
-);
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, 8, NULL, 'Kalinowski', 'Mariusz', '4444444444444444', '222222222'
+    DEFAULT, 8, NULL, 'Kalinowski', 'Mariusz', '4444444444444444', '+25222222222'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Sultan kosmitow z planety kurwix'
@@ -476,7 +450,7 @@ INSERT INTO Klient VALUES(
     DEFAULT, "Chyla", "Filip", "231312333","Wychodek 72","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
-    DEFAULT,"2021-09-19",8
+    DEFAULT,"2021-09-19",8,8
 ); 
 INSERT INTO Platnosc VALUES(
     DEFAULT,"Gotowka",8
@@ -490,9 +464,6 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,NULL,NULL
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,8,8,8
-);
 
 DELIMITER /
 CREATE PROCEDURE test1.all()
@@ -500,8 +471,6 @@ BEGIN
 SELECT SUM(Ilosc) from stan;
 END//
 DELIMITER ;
-
-
 
 DELIMITER //
 CREATE PROCEDURE test1.zamowienieData(IN Data DATE)
@@ -511,8 +480,6 @@ BEGIN
 END//
 DELIMITER ;
 
-
-
 DELIMITER //
 CREATE PROCEDURE test1.wybierzRozmiar(IN rozmiar VARCHAR(10) )
 BEGIN
@@ -520,7 +487,6 @@ BEGIN
     WHERE produkt.Rozmiar = rozmiar;
 END//
 DELIMITER ;
-
 
 DELIMITER //
 CREATE PROCEDURE test1.zaufaniKurierzy(IN kod INT )
@@ -531,10 +497,3 @@ IF kod = 2137 THEN
 END IF;
 END//
 DELIMITER ;
-
-create view zamowienia_kompletne AS SELECT
-dostawa.id_dostawa, data_dostawy, zamowienie.Data_kupna, produkt.Nazwa, produkt.Rozmiar, klient.Nazwisko, klient.Imie, klient.Nr_telefonu, firma_kurierska.nazwa_firmy FROM dostawa
-INNER JOIN KLIENT on dostawa.ID_Klient = klient.ID_Klient
-INNER JOIN Zamowienie on dostawa.ID_zamowienie = zamowienie.ID_Zamowienie
-INNER JOIN firma_kurierska on firma_kurierska.ID_Firma_Kurierska = dostawa.ID_Firma_kurierska
-INNER JOIN Produkt on produkt.ID_Produkt = zamowienie.ID_Produkt;
