@@ -95,26 +95,9 @@ CREATE TABLE IF NOT EXISTS Reklamacja (
     Data_reklamacji VARCHAR(10)
 );
 
-CREATE TABLE IF NOT EXISTS Zamowienie_produkt (
-    ID_zamowienie_produkt INT AUTO_INCREMENT PRIMARY KEY,
-    ID_Produkt INT,
-    ID_Zamowienie INT,
-    Ilosc INT NOT NULL,
-    FOREIGN KEY (ID_Produkt) REFERENCES Produkt(ID_Produkt),
-    FOREIGN KEY (ID_Zamowienie) REFERENCES Zamowienie(ID_Zamowienie)
-);
-DELIMITER //
-CREATE TRIGGER update_price
-BEFORE INSERT
-ON Partner FOR EACH ROW
-BEGIN
-IF NEW.Cena_Promocja IS NULL THEN
-SET NEW.Cena_Promocja =(SELECT p.Nazwa, 
-    p.Cena*(1-d.Upust) AS Cena_Promocja
-    FROM Produkt p
-    JOIN Promocja d ON d.ID_Promocja=p.ID_Promocja;)
-DELIMITER //
+DROP TRIGGER IF EXISTS partner_email;
 
+DELIMITER //
 CREATE TRIGGER partner_email
 BEFORE INSERT
 ON Partner FOR EACH ROW
@@ -124,6 +107,8 @@ BEGIN
     END IF;
 END//
 DELIMITER ;
+
+DROP TRIGGER IF EXISTS client_email;
 
 DELIMITER //
 CREATE TRIGGER client_email 
@@ -136,6 +121,8 @@ BEGIN
 END//
 DELIMITER ;
 
+DROP TRIGGER IF EXISTS partner_phone;
+
 DELIMITER //
 CREATE TRIGGER partner_phone
 BEFORE INSERT
@@ -146,6 +133,8 @@ BEGIN
     END IF;
 END//
 DELIMITER ;
+
+DROP TRIGGER IF EXISTS client_phone;
 
 DELIMITER //
 CREATE TRIGGER client_phone
@@ -158,6 +147,8 @@ BEGIN
 END//
 DELIMITER ;
 
+DROP TRIGGER IF EXISTS set_basic_description;
+
 DELIMITER //
 CREATE TRIGGER set_basic_description
 BEFORE INSERT
@@ -168,6 +159,8 @@ BEGIN
     END IF;
 END//
 DELIMITER ;
+
+DROP TRIGGER IF EXISTS set_basic_date;
 
 DELIMITER //
 CREATE TRIGGER set_basic_date
@@ -216,9 +209,6 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,"Paczka smierdziala jak ja otworzylem","2020-02-22"
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,1,1,1
-);
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Dostawca'
@@ -256,9 +246,7 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,NULL,NULL
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,2,2,2
-);
+
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Zlota raczka'
@@ -296,9 +284,7 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,NULL,NULL
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,3,3,3
-);
+
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Dostawca'
@@ -336,9 +322,7 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,NULL,NULL
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,4,4,4
-);
+
 
 
 INSERT INTO Rola VALUES (
@@ -377,9 +361,7 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,"Produkt niezgodny z opisem","2021-02-25"
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,5,5,5
-);
+
 
 
 INSERT INTO Rola VALUES (
@@ -418,9 +400,7 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,NULL,NULL
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,6,6,6
-);
+
 
 
 INSERT INTO Rola VALUES (
@@ -459,9 +439,7 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,"Nadruk szybko sie spral","2017-02-25"
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,7,7,7
-);
+
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
@@ -499,18 +477,18 @@ INSERT INTO Dostawa VALUES(
 INSERT INTO Reklamacja VALUES(
     DEFAULT,NULL,NULL
 ); 
-INSERT INTO Zamowienie_produkt VALUES(
-    DEFAULT,8,8,8
-);
 
-DELIMITER /
+
+DROP PROCEDURE IF EXISTS test1.all;
+
+DELIMITER //
 CREATE PROCEDURE test1.all()
 BEGIN
 SELECT SUM(Ilosc) from stan;
 END//
 DELIMITER ;
 
-
+DROP PROCEDURE IF EXISTS test1.zamowienieData;
 
 DELIMITER //
 CREATE PROCEDURE test1.zamowienieData(IN Data DATE)
@@ -520,7 +498,7 @@ BEGIN
 END//
 DELIMITER ;
 
-
+DROP PROCEDURE IF EXISTS test1.wybierzRozmiar;
 
 DELIMITER //
 CREATE PROCEDURE test1.wybierzRozmiar(IN rozmiar VARCHAR(10) )
@@ -530,6 +508,7 @@ BEGIN
 END//
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS test1.zaufaniKurierzy;
 
 DELIMITER //
 CREATE PROCEDURE test1.zaufaniKurierzy(IN kod INT )
