@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Partner(
 CREATE TABLE IF NOT EXISTS Promocja (
     ID_Promocja INT PRIMARY KEY AUTO_INCREMENT,
     Nazwa VARCHAR(40) NOT NULL,
-    Upust FLOAT NOT NULL
+    Upust DOUBLE(10, 2) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Producent (
@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS Produkt(
     Rozmiar VARCHAR(50) NOT NULL,
     ID_Promocja INT,
     ID_Producent INT,
-    Cena FLOAT,
+    Cena DOUBLE(10, 2),
+    Cena_Promocja FLOAT,
     Gwarancja VARCHAR(20),
     FOREIGN KEY (ID_Promocja) REFERENCES Promocja(ID_Promocja),
     FOREIGN KEY (ID_Producent) REFERENCES Producent(ID_Producent)
@@ -95,7 +96,6 @@ CREATE TABLE IF NOT EXISTS Reklamacja (
 );
 
 
-
 DELIMITER //
 CREATE TRIGGER partner_email
 BEFORE INSERT
@@ -108,7 +108,7 @@ END//
 DELIMITER ;
 
 DELIMITER //
-CREATE TRIGGER client_email
+CREATE TRIGGER client_email 
 BEFORE INSERT
 ON Klient FOR EACH ROW
 BEGIN
