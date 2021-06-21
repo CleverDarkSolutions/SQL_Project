@@ -536,6 +536,16 @@ SET x = 0;
 END//
 DELIMITER ;
 
+DELIMITER //
+CREATE TRIGGER update_price
+AFTER INSERT
+ON Produkt FOR EACH ROW
+BEGIN
+    CALL updatePromocja();
+END//
+
+DELIMITER ;
+
 
 create view zamowienia_kompletne AS SELECT
 dostawa.id_dostawa, data_dostawy, zamowienie.Data_kupna, produkt.Nazwa, produkt.Rozmiar, klient.Nazwisko, klient.Imie, klient.Nr_telefonu, firma_kurierska.nazwa_firmy FROM dostawa
