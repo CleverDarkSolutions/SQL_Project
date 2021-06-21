@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS Dostawa (
 CREATE TABLE IF NOT EXISTS Reklamacja (
     ID_Reklamacja INT AUTO_INCREMENT PRIMARY KEY,
     Opis VARCHAR(255),
-    Data_reklamacji DATE
+    Data_reklamacji VARCHAR(10)
 );
 
 
@@ -136,6 +136,28 @@ ON Klient FOR EACH ROW
 BEGIN
 	IF LENGTH (NEW.Nr_telefonu) = 9 THEN
     SET NEW.Nr_telefonu = CONCAT("+48",New.Nr_telefonu);
+    END IF;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER set_basic_description
+BEFORE INSERT
+ON Reklamacja FOR EACH ROW
+BEGIN
+	IF NEW.Opis IS NULL THEN
+    SET NEW.Opis = CONCAT("Brak uwag do zamowienia");
+    END IF;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER set_basic_date
+BEFORE INSERT
+ON Reklamacja FOR EACH ROW
+BEGIN
+	IF NEW.Data_reklamacji IS NULL THEN
+    SET NEW.Data_reklamacji = CONCAT("Brak daty reklamacji");
     END IF;
 END//
 DELIMITER ;
