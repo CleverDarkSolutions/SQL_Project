@@ -49,9 +49,9 @@ CREATE TABLE IF NOT EXISTS Klient (
     Nazwisko VARCHAR(60) NOT NULL,
     Imie VARCHAR(60) NOT NULL,
     Nr_telefonu VARCHAR(12) NOT NULL,
-    Ulica VARCHAR(50) NOT NULL,
+    Ulica VARCHAR(50),
     Miasto VARCHAR (50) NOT NULL,
-    Email VARCHAR (50) NOT NULL 
+    Email VARCHAR (50)
 );
 
 CREATE TABLE IF NOT EXISTS Zamowienie (
@@ -102,17 +102,56 @@ CREATE TABLE IF NOT EXISTS Zamowienie_produkt (
 );
 
 
-CREATE TRIGGER partner_email BEFORE INSERT ON Partner FOR EACH ROW SET NEW.email = CONCAT(LOWER(NEW.Imie),".",LOWER(New.Nazwisko),"@scamshop.partner.pl");
-CREATE TRIGGER client_email BEFORE INSERT ON Klient FOR EACH ROW SET NEW.email = CONCAT(LOWER(NEW.Imie),".",LOWER(New.Nazwisko),"@scamshop.client.pl");
-CREATE TRIGGER partner_phone BEFORE INSERT ON Partner FOR EACH ROW SET NEW.Nr_telefonu = CONCAT("+48"," ",NEW.Nr_telefonu); 
-CREATE TRIGGER client_phone BEFORE INSERT ON Klient FOR EACH ROW SET NEW.Nr_telefonu = CONCAT("+48"," ",New.Nr_telefonu);
+DELIMITER //
+CREATE TRIGGER partner_email
+BEFORE INSERT
+ON Partner FOR EACH ROW
+BEGIN
+	IF NEW.email IS NULL THEN
+    SET NEW.email = CONCAT(LOWER(NEW.Imie),".",LOWER(New.Nazwisko),"@scamshop.partner.pl");
+    END IF;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER client_email
+BEFORE INSERT
+ON Klient FOR EACH ROW
+BEGIN
+	IF NEW.email IS NULL THEN
+    SET NEW.email = CONCAT(LOWER(NEW.Imie),".",LOWER(New.Nazwisko),"@scamshop.client.pl");
+    END IF;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER partner_phone
+BEFORE INSERT
+ON Partner FOR EACH ROW
+BEGIN
+	IF NEW.Nr_telefonu IS NULL THEN
+    SET NEW.Nr_telefonu = CONCAT("+48"," ",NEW.Nr_telefonu);
+    END IF;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER client_phone
+BEFORE INSERT
+ON Klient FOR EACH ROW
+BEGIN
+	IF NEW.Nr_telefonu IS NULL THEN
+    SET NEW.Nr_telefonu = CONCAT("+48"," ",New.Nr_telefonu);
+    END IF;
+END//
+DELIMITER ;
 
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, '1', 'mhyla@tvp.pl', 'Hyla', 'Michal', '2199328129050312', '281482102'
+    DEFAULT, '1', NULL, 'Hyla', 'Michal', '2199328129050312', '281482102'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'AlJazeera ze Szczecina'
@@ -127,7 +166,7 @@ INSERT INTO Stan VALUES (
     DEFAULT, 1, 50
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Batory", "Stefan", "489111333","Amona 15","Gdansk","stefan.batory"
+    DEFAULT, "Batory", "Stefan", "489111333","Amona 15","Gdansk","stefan.batory@wp.pl"
 ); 
 INSERT INTO Zamowienie VALUES(
     DEFAULT,"2020-02-19",1
@@ -167,7 +206,7 @@ INSERT INTO Stan VALUES (
     DEFAULT, 2, 30
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Kalinowski", "Michal", "999222111","Zeusa 69","Gdynia","michal.kalinowski"
+    DEFAULT, "Kalinowski", "Michal", "999222111","Zeusa 69","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
     DEFAULT,"2019-02-19",2
@@ -182,7 +221,7 @@ INSERT INTO Dostawa VALUES(
     DEFAULT,"2019-02-22",2,2,2
 );
 INSERT INTO Reklamacja VALUES(
-    DEFAULT," "," "
+    DEFAULT,NULL,NULL
 ); 
 INSERT INTO Zamowienie_produkt VALUES(
     DEFAULT,2,2,2
@@ -207,7 +246,7 @@ INSERT INTO Stan VALUES (
     DEFAULT, 3, 50
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Pilsudski", "Jozef", "999999999","Wladyslawa 4","Gdynia","jozef.pilsudski"
+    DEFAULT, "Pilsudski", "Jozef", "999999999","Wladyslawa 4","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
     DEFAULT,"2020-02-19",3
@@ -222,7 +261,7 @@ INSERT INTO Dostawa VALUES(
     DEFAULT,"2020-02-22",3,3,3
 );
 INSERT INTO Reklamacja VALUES(
-    DEFAULT," "," "
+    DEFAULT,NULL,NULL
 ); 
 INSERT INTO Zamowienie_produkt VALUES(
     DEFAULT,3,3,3
@@ -232,7 +271,7 @@ INSERT INTO Rola VALUES (
     DEFAULT, 'Dostawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, '4', 'pjanuszewski@tvp.pl', 'Januszewski', 'Patryk', '8888888888888888', '222222222'
+    DEFAULT, '4', NULL, 'Januszewski', 'Patryk', '8888888888888888', '222222222'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Sultan kosmitow z planety kurwix'
@@ -247,7 +286,7 @@ INSERT INTO Stan VALUES (
     DEFAULT, 4, 1
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Zemajtys", "Filip", "999999999","Genarala Marii Wittekowny 4","Gdynia","filip.zemajtys"
+    DEFAULT, "Zemajtys", "Filip", "999999999","Genarala Marii Wittekowny 4","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
     DEFAULT,"2021-02-19",4
@@ -262,7 +301,7 @@ INSERT INTO Dostawa VALUES(
     DEFAULT,"2021-02-25",4,4,4
 );
 INSERT INTO Reklamacja VALUES(
-    DEFAULT," "," "
+    DEFAULT,NULL,NULL
 ); 
 INSERT INTO Zamowienie_produkt VALUES(
     DEFAULT,4,4,4
@@ -273,13 +312,13 @@ INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, 5, 'psroka@tvp.pl', 'Sroka', 'Patryk', '8888888888888888', '313121444'
+    DEFAULT, 5, NULL, 'Sroka', 'Patryk', '8888888888888888', '313121444'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Lepkie palce company'
 );
 INSERT INTO Promocja VALUES (
-    DEFAULT, 'Kup jedna zaplac za dwie' , 0.3
+    DEFAULT, 'Kup jedna zaplac za dwie' , 0.0
 );
 INSERT INTO Produkt VALUES (
     DEFAULT,'Dziwnie lepkie rekawiczki', 'XL', 5, 5, 420, '10 lat'
@@ -288,7 +327,7 @@ INSERT INTO Stan VALUES (
     DEFAULT, 5, 100
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Paluszek", "Joachim", "555666111","Zadupie 44","Oborniki","joachim.ze"
+    DEFAULT, "Paluszek", "Joachim", "555666111","Zadupie 44","Oborniki","joachim.ze@gmail.com"
 ); 
 INSERT INTO Zamowienie VALUES(
     DEFAULT,"2012-05-19",5
@@ -314,7 +353,7 @@ INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, 6, 'aszulist@tvp.pl', 'Szulist', 'Artur', '3333333333333333', '777888999'
+    DEFAULT, 6, NULL, 'Szulist', 'Artur', '3333333333333333', '777888999'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Czarny barak z bialego domu'
@@ -329,7 +368,7 @@ INSERT INTO Stan VALUES (
     DEFAULT, 6, 10
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Zemajtys", "Filip", "999999999","Aleje Straszne","Gdynia","filip.zemajtys"
+    DEFAULT, "Zemajtys", "Filip", "999999999","Aleje Straszne","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
     DEFAULT,"2022-04-30",6
@@ -344,7 +383,7 @@ INSERT INTO Dostawa VALUES(
     DEFAULT,"2021-02-25",6,6,6
 );
 INSERT INTO Reklamacja VALUES(
-    DEFAULT," "," "
+    DEFAULT,NULL,NULL
 ); 
 INSERT INTO Zamowienie_produkt VALUES(
     DEFAULT,6,6,6
@@ -370,7 +409,7 @@ INSERT INTO Stan VALUES (
     DEFAULT, 7, 1000
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Zemajtys", "Filip", "999999999","Obroncow Wybrzeza","Gdansk","filip.zemajtys"
+    DEFAULT, "Zemajtys", "Filip", "999999999","Obroncow Wybrzeza","Gdansk",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
     DEFAULT,"2015-02-19",7
@@ -395,7 +434,7 @@ INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, 8, 'mkalinowski@tvp.pl', 'Kalinowski', 'Mariusz', '4444444444444444', '222222222'
+    DEFAULT, 8, NULL, 'Kalinowski', 'Mariusz', '4444444444444444', '222222222'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Sultan kosmitow z planety kurwix'
@@ -410,7 +449,7 @@ INSERT INTO Stan VALUES (
     DEFAULT, 8, 1
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Chyla", "Filip", "231312333","Wychodek 72","Gdynia","filip.zemajtys"
+    DEFAULT, "Chyla", "Filip", "231312333","Wychodek 72","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
     DEFAULT,"2021-09-19",8
@@ -425,7 +464,7 @@ INSERT INTO Dostawa VALUES(
     DEFAULT,"2021-10-25",8,8,8
 );
 INSERT INTO Reklamacja VALUES(
-    DEFAULT," "," "
+    DEFAULT,NULL,NULL
 ); 
 INSERT INTO Zamowienie_produkt VALUES(
     DEFAULT,8,8,8
@@ -468,5 +507,3 @@ IF kod = 2137 THEN
 END IF;
 END//
 DELIMITER ;
-
-
