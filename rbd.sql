@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS Produkt(
     ID_Promocja INT,
     ID_Producent INT,
     Cena DOUBLE(10, 2),
-    Cena_Promocja FLOAT,
     Gwarancja VARCHAR(20),
     FOREIGN KEY (ID_Promocja) REFERENCES Promocja(ID_Promocja),
     FOREIGN KEY (ID_Producent) REFERENCES Producent(ID_Producent)
@@ -169,7 +168,6 @@ BEGIN
     END IF;
 END//
 DELIMITER ;
-
 
 INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
@@ -531,6 +529,11 @@ IF kod = 2137 THEN
 END IF;
 END//
 DELIMITER ;
+SELECT p.Nazwa, 
+    p.Cena*(1-d.Upust) AS Cena_Promocja
+    FROM Produkt p
+    JOIN Promocja d ON d.ID_Promocja=p.ID_Promocja;
+
 
 create view zamowienia_kompletne AS SELECT
 dostawa.id_dostawa, data_dostawy, zamowienie.Data_kupna, produkt.Nazwa, produkt.Rozmiar, klient.Nazwisko, klient.Imie, klient.Nr_telefonu, firma_kurierska.nazwa_firmy FROM dostawa
