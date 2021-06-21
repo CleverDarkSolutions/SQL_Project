@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Partner(
 CREATE TABLE IF NOT EXISTS Promocja (
     ID_Promocja INT PRIMARY KEY AUTO_INCREMENT,
     Nazwa VARCHAR(40) NOT NULL,
-    Upust INT NOT NULL
+    Upust FLOAT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Producent (
@@ -279,7 +279,7 @@ INSERT INTO Producent VALUES(
     DEFAULT, 'Lepkie palce company'
 );
 INSERT INTO Promocja VALUES (
-    DEFAULT, 'Kup jedna zaplac za dwie' , 0.0
+    DEFAULT, 'Kup jedna zaplac za dwie' , 0.3
 );
 INSERT INTO Produkt VALUES (
     DEFAULT,'Dziwnie lepkie rekawiczki', 'XL', 5, 5, 420, '10 lat'
