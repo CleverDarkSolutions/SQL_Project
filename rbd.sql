@@ -177,7 +177,7 @@ INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, '1', NULL, 'Hyla', 'Michal', '2199328129050312', '281482102'
+    DEFAULT, '1', NULL, 'Hyla', 'Michal', '2199328129050312', '+66281482102'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'AlJazeera ze Szczecina'
@@ -290,7 +290,7 @@ INSERT INTO Rola VALUES (
     DEFAULT, 'Dostawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, '4', NULL, 'Januszewski', 'Patryk', '8888888888888888', '222222222'
+    DEFAULT, '4', NULL, 'Januszewski', 'Patryk', '8888888888888888', '+11222222222'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Sultan kosmitow z planety kurwix'
@@ -329,7 +329,7 @@ INSERT INTO Rola VALUES (
     DEFAULT, 'Sprzedawca'
 );
 INSERT INTO Partner VALUES (
-    DEFAULT, 5, NULL, 'Sroka', 'Patryk', '8888888888888888', '313121444'
+    DEFAULT, 5, NULL, 'Sroka', 'Patryk', '8888888888888888', '+33313121444'
 );
 INSERT INTO Producent VALUES(
     DEFAULT, 'Lepkie palce company'
@@ -344,7 +344,7 @@ INSERT INTO Stan VALUES (
     DEFAULT, 5, 100
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Paluszek", "Joachim", "555666111","Zadupie 44","Oborniki","joachim.ze@gmail.com"
+    DEFAULT, "Paluszek", "Joachim", "+66555666111","Zadupie 44","Oborniki","joachim.ze@gmail.com"
 ); 
 INSERT INTO Zamowienie VALUES(
     DEFAULT,"2012-05-19",5,5
@@ -383,7 +383,7 @@ INSERT INTO Stan VALUES (
     DEFAULT, 6, 10
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Zemajtys", "Filip", "999999999","Aleje Straszne","Gdynia",NULL
+    DEFAULT, "Zemajtys", "Filip", "+58999999999","Aleje Straszne","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
     DEFAULT,"2022-04-30",6,6
@@ -460,7 +460,7 @@ INSERT INTO Stan VALUES (
     DEFAULT, 8, 1
 );
 INSERT INTO Klient VALUES(
-    DEFAULT, "Chyla", "Filip", "231312333","Wychodek 72","Gdynia",NULL
+    DEFAULT, "Chyla", "Filip", "+49231312333","Wychodek 72","Gdynia",NULL
 ); 
 INSERT INTO Zamowienie VALUES(
     DEFAULT,"2021-09-19",8,8
